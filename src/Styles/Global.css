@@ -1,0 +1,36 @@
+.center-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh; /* Para centrar verticalmente en la ventana */
+    padding: 20px; /* Añade algo de padding alrededor en pantallas pequeñas */
+  }
+  
+  @media (min-width: 576px) { /* Para pantallas pequeñas y mayores (sm breakpoint y superiores) */
+    .center-container {
+      padding: 30px; /* Aumenta el padding en pantallas más grandes si lo deseas */
+    }
+  }
+
+
+  .login-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh; /* Para centrar verticalmente en la ventana */
+    padding: 20px; /* Añade algo de padding alrededor en pantallas pequeñas */
+  }
+  
+  .ck { /* No necesitas el class space en el Col ya que el centrado lo maneja Row */
+    border-radius: 8px;
+  }
+  
+  .root { /* Si tienes estilos específicos para el Form, los puedes agregar aquí */
+    padding: 20px; /* Ejemplo de padding dentro del formulario en la Card */
+  }
+
+  .logo{
+    float: 'left';
+    margin-right: '20px';
+    Color: 'white';
+  }
