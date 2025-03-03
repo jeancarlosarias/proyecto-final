@@ -1,0 +1,26 @@
+/* Login.css */
+
+.login-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 2rem;
+  }
+  
+  .login-card { /* Estilos para el Card de Ant Design */
+    width: 400px
+  }
+  
+  
+  .login-form { /* Este div interno sigue centrando el formulario dentro del Card */
+    padding: 32px;
+    border-radius: 8px; /* Ya no es necesario aquí porque el Card ya tiene bordes redondeados */
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* Opcional: Si quieres una sombra extra en el contenido del Card */
+    /* width: 100%;  Ya no necesitamos establecer un ancho aquí, el ancho lo controla el .login-card */
+  }
+  
+  .mkd{
+    align-content: end;
+  }
+
+  
