@@ -15,8 +15,7 @@ const Login: React.FC = () => {
   };
 
   return (
-    <div className="login-container">
-      <Card className="login-card"> {/* Usamos Card aquí y aplicamos clase login-card */}
+    <div className="login-container">      <Card className="login-card"> {/* Usamos Card aquí y aplicamos clase login-card */}
         <div className="login-form"> {/*  Este div interno mantiene el centrado del formulario */}
           <Title level={2} style={{ textAlign: 'center', marginBottom: '24px' }}>
             Iniciar Sesión
