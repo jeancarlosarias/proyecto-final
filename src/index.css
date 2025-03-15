@@ -5,62 +5,113 @@
 
   color-scheme: light dark;
   color: rgba(255, 255, 255, 0.87);
-  background-color:chocolate; 
+  background-color: rgb(104, 95, 95); 
   font-synthesis: none;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 } 
 
-/* App.module.css */
-
-.layout {
-  background-color: #f8f8f8; /* Un gris muy claro como fondo general */
+/* Global.css */
+body, html {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  font-family: Arial, sans-serif;
 }
 
-.content {
-  padding: 50px; /* Ajusta el padding del contenido principal */
+.layout {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
 }
 
 .header {
-  background-color: #001529; /* Mismo color de fondo del Header de Ant Design por defecto, si quieres cambiarlo */
-  padding: 0 50px; /* Ajusta el padding horizontal del header */
+  background: #001529;
+  padding: 0 50px;
+}
+
+.logo {
+  float: left;
+  margin-right: 20px;
+  color: white;
+}
+
+.menu {
+  float: left;
+}
+
+.search {
+  float: right;
+  margin-top: 15px;
+}
+
+.content {
+  flex: 1;
+  padding: 0 50px;
+  text-align: center;
+}
+
+.carousel {
+  width: 1000px;
+  margin-bottom: 30px;
+}
+
+.card-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 20px;
 }
 
 .footer {
   text-align: center;
-  padding: 20px;
-  background-color: #e0e0e0; /* Un gris más claro para el footer */
+  background: #001529;
+  color: white;
+  padding: 20px 0;
 }
 
-.logoArea {
-  float: left;
-  margin-right: 20px;
-  color: white; /* Color del logo */
+@media (max-width: 768px) {
+  .header {
+    padding: 0 20px;
+  }
+
+  .menu {
+    float: none;
+    text-align: center;
+  }
+
+  .search {
+    float: none;
+    text-align: center;
+    margin-top: 10px;
+  }
+
+  .content {
+    padding: 0 20px;
+    margin-top: 20px;
+  }
+
+  .carousel {
+    margin-bottom: 20px;
+  }
+
+  .card-grid {
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  }
 }
 
-.menuArea {
-  float: left;
-}
 
-.searchLoginArea {
-  float: right;
-  display: flex;
-  align-items: center;
+.carousel {
+  width: 100%;
+  max-width: 600px;
+  margin: auto;
+  overflow: hidden;
+  position: relative;
 }
-
-.tituloPrincipalArea {
-  text-align: center;
-  margin-top: 50px;
-  margin-bottom: 30px;
+.carousel img {
+  width: 100%;
+  display: none;
 }
-
-.carouselArea {
-  margin-bottom: 30px;
-}
-
-.recetasGrid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-  gap: 20px;
+.carousel img.active {
+  display: block;
 }
