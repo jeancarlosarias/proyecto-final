@@ -1,14 +1,9 @@
 import React from 'react';
-import LoginPage  from './Pages/MainPage/View/MainPage'
-
+import Rutas from './Components/rutas'; // Asegúrate de importar correctamente
 
 const App: React.FC = () => {
-  
-
   return (
-    <>
-      <LoginPage/>
-    </>
+    <Rutas /> // Esto renderizará el enrutador y sus rutas
   );
 };
 
