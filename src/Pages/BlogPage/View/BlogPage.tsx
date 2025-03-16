@@ -20,7 +20,14 @@ const recipes = [
     id: 2,
     title: 'Mangú',
     description: 'Plátanos verdes majados con los tres golpes',
-    image: 'https://example.com/mangu.jpg',
+    image: '/src/assets/images/how-to-make-mangu-DSC6702 (1).jpg',
+    content: 'Receta completa aquí...'
+  },
+  {
+    id: 2,
+    title: 'Mangú',
+    description: 'Plátanos verdes majados con los tres golpes',
+    image: '/src/assets/images/how-to-make-mangu-DSC6702 (1).jpg',
     content: 'Receta completa aquí...'
   },
   {
@@ -41,7 +48,49 @@ const recipes = [
     id: 2,
     title: 'Mangú',
     description: 'Plátanos verdes majados con los tres golpes',
-    image: 'https://example.com/mangu.jpg',
+    image: '/src/assets/images/how-to-make-mangu-DSC6702 (1).jpg',
+    content: 'Receta completa aquí...'
+  },
+  {
+    id: 2,
+    title: 'Mangú',
+    description: 'Plátanos verdes majados con los tres golpes',
+    image: '/src/assets/images/how-to-make-mangu-DSC6702 (1).jpg',
+    content: 'Receta completa aquí...'
+  },
+  {
+    id: 2,
+    title: 'Mangú',
+    description: 'Plátanos verdes majados con los tres golpes',
+    image: '/src/assets/images/how-to-make-mangu-DSC6702 (1).jpg',
+    content: 'Receta completa aquí...'
+  },
+  {
+    id: 2,
+    title: 'Mangú',
+    description: 'Plátanos verdes majados con los tres golpes',
+    image: '/src/assets/images/how-to-make-mangu-DSC6702 (1).jpg',
+    content: 'Receta completa aquí...'
+  },
+  {
+    id: 2,
+    title: 'Mangú',
+    description: 'Plátanos verdes majados con los tres golpes',
+    image: '/src/assets/images/how-to-make-mangu-DSC6702 (1).jpg',
+    content: 'Receta completa aquí...'
+  },
+  {
+    id: 2,
+    title: 'Mangú',
+    description: 'Plátanos verdes majados con los tres golpes',
+    image: '/src/assets/images/how-to-make-mangu-DSC6702 (1).jpg',
+    content: 'Receta completa aquí...'
+  },
+  {
+    id: 2,
+    title: 'Mangú',
+    description: 'Plátanos verdes majados con los tres golpes',
+    image: '/src/assets/images/how-to-make-mangu-DSC6702 (1).jpg',
     content: 'Receta completa aquí...'
   },
   // Agrega más recetas según necesites
