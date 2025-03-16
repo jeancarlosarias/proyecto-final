@@ -46,14 +46,14 @@ body, html {
   margin-top: 15px;
 }
 
-.content {
-  flex: 1;
+.content-items{
+  display: flex;
   padding: 0 50px;
   text-align: center;
 }
 
 .carousel {
-  width: 1000px;
+  width: 500px;
   margin-bottom: 30px;
 }
 
