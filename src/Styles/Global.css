@@ -1,36 +1,42 @@
+/* Global.css */
 .center-container {
     display: flex;
     justify-content: center;
     align-items: center;
-    min-height: 100vh; /* Para centrar verticalmente en la ventana */
-    padding: 20px; /* Añade algo de padding alrededor en pantallas pequeñas */
+    min-height: 100vh;
+    padding: 20px;
+    box-sizing: border-box;
   }
   
-  @media (min-width: 576px) { /* Para pantallas pequeñas y mayores (sm breakpoint y superiores) */
+  /* Ajustes responsive para el formulario */
+  @media (max-width: 768px) {
     .center-container {
-      padding: 30px; /* Aumenta el padding en pantallas más grandes si lo deseas */
+      padding: 10px;
+    }
+  
+    /* Ajustar labels para móviles */
+    .ant-form-item-label {
+      text-align: left !important;
+    }
+  
+    /* Hacer inputs full width en móviles */
+    .ant-form-item-control {
+      width: 100% !important;
+    }
+  
+    /* Ajustar botón para móviles */
+    .ant-btn {
+      width: 100%;
     }
   }
-
-
-  .login-container {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    min-height: 100vh; /* Para centrar verticalmente en la ventana */
-    padding: 20px; /* Añade algo de padding alrededor en pantallas pequeñas */
-  }
   
-  .ck { /* No necesitas el class space en el Col ya que el centrado lo maneja Row */
-    border-radius: 8px;
-  }
-  
-  .root { /* Si tienes estilos específicos para el Form, los puedes agregar aquí */
-    padding: 20px; /* Ejemplo de padding dentro del formulario en la Card */
-  }
-
-  .logo{
-    float: 'left';
-    margin-right: '20px';
-    Color: 'white';
+  @media (max-width: 480px) {
+    /* Reducir padding en tarjeta para móviles pequeños */
+    .ant-card {
+      margin: 0 10px;
+    }
+    
+    .ant-card-head-title {
+      font-size: 1.2rem;
+    }
   }
