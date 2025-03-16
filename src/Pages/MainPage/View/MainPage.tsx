@@ -1,86 +1,140 @@
 import React from 'react';
-import { Layout, Menu, Typography, Input, Card, Image, Carousel, Button } from 'antd';
-import  '/Users/Jose-PC/Downloads/Proyecto React/proyecto-final/src/Styles/Global.css'
-
+import { Breadcrumb, Layout, Menu, theme, Carousel, Image, Typography, Input} from 'antd';
+import '/Users/Jose-PC/Downloads/Proyecto React/proyecto-final/src/Styles/global.css'
+import { Link  } from 'react-router-dom';
 
 const { Header, Content, Footer } = Layout;
 const { Title, Paragraph } = Typography;
 const { Search } = Input;
 
-const MainPage: React.FC = () => {
-  const carouselSettings = { // Opciones para el Carousel (puedes personalizarlas)
-    autoplay: true,          // Carrusel automático
-    dots: true,             // Mostrar puntos de navegación
-    arrows: true,          // No mostrar flechas de navegación (puedes activar si quieres)
-  };
+const items = Array.from({ length: 15 }).map((_, index) => ({
+  key: index + 1,
+  label: `nav ${index + 1}`,
+}));
 
-  const carouselImages = [ // Array con URLs de imágenes para el carrusel
-    "https://s1.1zoom.me/b4857/620/Fast_food_Hamburger_Vegetables_Fire_Two_520128_1920x1080.jpg", // Reemplaza con URLs reales
-    "https://s1.1zoom.me/b4857/620/Fast_food_Hamburger_Vegetables_Fire_Two_520128_1920x1080.jpg",
-    "https://s1.1zoom.me/b4857/620/Fast_food_Hamburger_Vegetables_Fire_Two_520128_1920x1080.jpg",
-    "https://s1.1zoom.me/b4857/620/Fast_food_Hamburger_Vegetables_Fire_Two_520128_1920x1080.jpg",
-  ];
+const carouselImages = [
+  '/src/assets/images/yone-lol-splash-art-uhdpaper.com-8K-7.2287.jpg',
+  '/src/assets/images/cb298dc0-671b-4c02-9594-f6183c1d1b8f.png',
+  '/src/assets/images/cb298dc0-671b-4c02-9594-f6183c1d1b8f.png',
+  '/src/assets/images/how-to-make-mangu-DSC6702 (1).jpg'
+];
+
+const MainPage: React.FC = () => {
+  const {
+    token: { colorBgContainer, borderRadiusLG },
+  } = theme.useToken();
 
   return (
-    <Layout className="layout">
-      <Header>
-        {/* ... (Cabecera - igual que antes) */}
-        <div className="logo" style={{ float: 'left', marginRight: '20px', color: 'white' }}>
-          <Title level={3} style={{ color: 'white', marginBottom: 0 }}>Bing</Title>
-        </div>
-        <Menu theme="dark" mode="horizontal" defaultSelectedKeys={['1']} style={{ float: 'left' }}>
-          <Menu.Item key="1">Inicio</Menu.Item>
-          <Menu.Item key="2">Recetas</Menu.Item>
-          <Menu.Item key="3">Blog</Menu.Item>
-          <Menu.Item key="4">Contactanos</Menu.Item>
-        </Menu>
-        <div style={{ float: 'right', alignContent:'center'}}>
-          <Search placeholder="Búsqueda" onSearch={(value) => console.log(value)} style={{ width: 200, marginRight: '20px', alignContent: 'center'
-           }} />
-          <Button type="link" style={{ color: 'white' }}>Login</Button>
-          <Button type='link' style={{ color: 'white' }}>Registratee</Button>
-        </div>
-      </Header>
-      <Content style={{ padding: '0 50px' }}>
-        <div style={{ textAlign: 'center', marginTop: '50px', marginBottom: '30px' }}>
-          <Title level={1}>Blog The Dominican Delight</Title>
-          <Paragraph>Lo mejor de la cocina dominicana</Paragraph>
-        </div>
-
-        {/* Carrusel de imágenes */}
-        <Carousel {...carouselSettings} style={{ marginBottom: '30px' }}>
-          {carouselImages.map((imageURL, index) => (
-            <div key={index}>
-              <Image
-                src={imageURL}
-                alt={`Receta ${index + 1}`}
-                style={{ width: '100%', maxHeight: '400px', objectFit: 'cover' }} // Ajusta la altura máxima y el modo de ajuste
-              />
+    <Layout>
+      <Header style={{ 
+            display: 'flex', 
+            alignItems: 'center', 
+            justifyContent: 'space-between' 
+            }}>
+            {/* Logo */}
+            <div className="logo" style={{ marginRight: '20px' }}>
+            <Title level={3} style={{ color: 'white', margin: 0 }}>Bing</Title>
             </div>
-          ))}
-        </Carousel>
 
+            {/* Menú principal + Botones derecha */}
+         <div style={{ 
+            display: 'flex', 
+            flexGrow: 1, 
+            justifyContent: 'space-between', 
+            alignItems: 'center' 
+            }}>
+            {/* Menú Navegación */}
+            <Menu
+            theme="dark"
+            mode="horizontal"
+            defaultSelectedKeys={['1']}
+            style={{ flex: 1, borderBottom: 'none' }}
+            >
+            <Menu.Item key="1">
+                <Link to="/">Inicio</Link>
+            </Menu.Item>
+            <Menu.Item key="2">
+                <Link to="/recetas">Recetas</Link>
+            </Menu.Item>
+            <Menu.Item key="3">
+                <Link to="/blog">Blog</Link>
+            </Menu.Item>
+            </Menu>
 
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: '20px' }}>
-          {/* ... (Tarjetas de recetas - igual que antes) */}
-          <Card
-            cover={
-              <Image
-                alt="Dominican Delight 1"
-                src="url"
-              />
-            }
-          >
-            <Title level={4}>DOMINICAN Delights</Title>
-            <Paragraph>Card with stretched link</Paragraph>
-            <Paragraph>Some quick example text to build on the card title and make up the bulk of the card's content.</Paragraph>
-          </Card>
-          {/* ... Repite el componente Card para más recetas */}
+            {/* Contenedor derecha (Buscador + Auth) */}
+            <div style={{ display: 'flex', alignItems: 'center', gap: '15px' }}>
+            <Search
+                placeholder="Búsqueda"
+                onSearch={(value) => console.log(value)}
+                style={{ width: 200 }}
+            />
+            
+            <Menu
+                theme="dark"
+                mode="horizontal"
+                selectedKeys={[]}
+                style={{ borderBottom: 'none' }}
+            >
+                <Menu.Item key="4">
+                <Link to="/login">Login</Link>
+                </Menu.Item>
+            </Menu>
+            </div>
+        </div>
+        </Header>
+      <Content style={{ padding: '0 0px' }}>
+        <Breadcrumb style={{ margin: '16px 0' }}>
+          <Breadcrumb.Item>Home</Breadcrumb.Item>
+          <Breadcrumb.Item>List</Breadcrumb.Item>
+          <Breadcrumb.Item>App</Breadcrumb.Item>
+        </Breadcrumb>
+        <div style={{ 
+
+      width: '100vw', // Ocupa el ancho completo del viewport
+      position: 'relative',
+      left: '50%',
+      transform: 'translateX(-50%)'
+      }}>
+      <Carousel 
+        autoplay 
+        effect="fade"
+        dotPosition="bottom"
+        style={{
+          marginBottom: 24,
+          borderRadius: borderRadiusLG,
+          overflow: 'hidden'
+        }}
+      >
+      {carouselImages.map((img, index) => (
+        <div key={index}>
+          <Image
+            src={img}
+            alt={`Slide ${index + 1}`}
+            preview={false}
+            style={{
+              width: '100%',
+              minHeight: '70vh',
+              objectFit: 'cover',
+              objectPosition: 'center center'
+            }}
+          />
+        </div>
+      ))}
+    </Carousel>
+  </div>
+        <div
+          style={{
+            background: colorBgContainer,
+            minHeight: 280,
+            padding: 24,
+            borderRadius: borderRadiusLG,
+          }}
+        >
+          Content
         </div>
       </Content>
       <Footer style={{ textAlign: 'center' }}>
-        {/* ... (Pie de página - igual que antes) */}
-        Dominican Delight © {new Date().getFullYear()}
+        Ant Design ©{new Date().getFullYear()} Created by Ant UED
       </Footer>
     </Layout>
   );
