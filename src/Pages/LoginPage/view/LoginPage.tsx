@@ -92,6 +92,7 @@ const LoginPage: React.FC = () => {
             <Button type="primary" htmlType="submit" loading={loading} block>
               Iniciar Sesión
             </Button>
+            
           </Form.Item>
         </Form>
         <div style={{ textAlign: 'center', marginTop: '16px' }}>
