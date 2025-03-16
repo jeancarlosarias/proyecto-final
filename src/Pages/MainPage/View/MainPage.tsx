@@ -33,7 +33,7 @@ const MainPage: React.FC = () => {
             }}>
             {/* Logo */}
             <div className="logo" style={{ marginRight: '20px' }}>
-            <Title level={3} style={{ color: 'white', margin: 0 }}>Bing</Title>
+            <Title level={3} style={{ color: 'white', margin: 0 }}>Dominican Delights</Title>
             </div>
 
             {/* Menú principal + Botones derecha */}
