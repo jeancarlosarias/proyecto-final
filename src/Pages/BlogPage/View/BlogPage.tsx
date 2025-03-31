@@ -96,6 +96,38 @@ const recipes = [
   // Agrega más recetas según necesites
 ];
 
+
+const recipesPostre = [
+  {
+    id: 1,
+    title: 'Arepa Dominicana',
+    description: 'En la gastronomía dominicana, la arepa es un pastel horneado a base de harina de maíz, leche de coco, azúcar y especias. Su textura es densa y ligeramente húmeda, con un sabor dulce y aromático. ',
+    image: '/src/assets/images/Arepa Dominicana [Receta + Video] Arepa Dulce.jpeg',
+    content: 'Receta completa aquí...'
+  },
+  {
+    id: 2,
+    title: 'Arroz con Leche',
+    description: 'Es un postre cremoso preparado con arroz, leche, azúcar y especias como canela y clavo dulce. Se cocina a fuego lento hasta que el arroz absorbe la leche y adquiere una textura suave',
+    image: '/src/assets/images/Arroz con Leche Dominicano.jpeg',
+    content: 'Receta completa aquí...'
+  },
+  {
+    id: 2,
+    title: 'Dulce de Platano',
+    description: 'Es un postre tradicional preparado con plátanos maduros en rodajas, cocidos con azúcar, canela, clavo dulce y a veces un toque de leche o vainilla.',
+    image: '/src/assets/images/Fried Sweet Plantain Slices (Plátanos Maduros Fritos).jpeg',
+    content: 'Receta completa aquí...'
+  },
+  {
+    id: 2,
+    title: 'Habichuelas con Dulce ',
+    description: ' Un postre tradicional dominicano hecho con habichuelas rojas, leche, azúcar, canela, batata y pasas, servido frío o caliente, especialmente en Semana Santa.',
+    image: '/src/assets/images/Postres Dominicanos Tradicionales Más Populares.jpeg',
+    content: 'Receta completa aquí...'
+  }
+];
+
 const BlogPage: React.FC = () => {
   const navigate = useNavigate();
 
@@ -112,7 +144,7 @@ const BlogPage: React.FC = () => {
             }}>
             {/* Logo */}
             <div className="logo" style={{ marginRight: '20px' }}>
-            <Title level={3} style={{ color: 'white', margin: 0 }}>Bing</Title>
+            <Title level={3} style={{ color: 'white', margin: 0 }}>Dominican Delights</Title>
             </div>
 
             {/* Menú principal + Botones derecha */}
@@ -126,7 +158,7 @@ const BlogPage: React.FC = () => {
             <Menu
             theme="dark"
             mode="horizontal"
-            defaultSelectedKeys={['1']}
+            defaultSelectedKeys={['3']}
             style={{ flex: 1, borderBottom: 'none' }}
             >
             <Menu.Item key="1">
@@ -142,11 +174,6 @@ const BlogPage: React.FC = () => {
 
             {/* Contenedor derecha (Buscador + Auth) */}
             <div style={{ display: 'flex', alignItems: 'center', gap: '15px' }}>
-            <Search
-                placeholder="Búsqueda"
-                onSearch={(value) => console.log(value)}
-                style={{ width: 200 }}
-            />
             
             <Menu
                 theme="dark"
@@ -156,9 +183,6 @@ const BlogPage: React.FC = () => {
             >
                 <Menu.Item key="4">
                 <Link to="/login">Login</Link>
-                </Menu.Item>
-                <Menu.Item key="5">
-                <Link to="/registro">Registro</Link>
                 </Menu.Item>
             </Menu>
             </div>
@@ -191,6 +215,37 @@ const BlogPage: React.FC = () => {
                 <Card.Meta
                   title={recipe.title}
                   description={recipe.description}
+                />
+              </Card>
+            </Col>
+          ))}
+        </Row>
+
+        <div style={{ textAlign: 'center', marginTop: '50px', marginBottom: '30px' }}>
+          <Title level={1}>Postres</Title>
+          <Paragraph>Descubre nuestros mejores postres tradicionales</Paragraph>
+        </div>
+
+        <Row gutter={[16, 16]} style={{ marginBottom: '30px' }}>
+          {recipesPostre.map((recipesPostre) => (
+            <Col xs={24} sm={12} md={8} lg={6} key={recipesPostre.id}>
+              <Card
+                hoverable
+                cover={
+                  <Image
+                    alt={recipesPostre.title}
+                    src={recipesPostre.image}
+                    height={200}
+                    style={{ objectFit: 'cover' }}
+                    preview={false}
+                  />
+                }
+                onClick={() => handleCardClick(recipesPostre.id)}
+                style={{ cursor: 'pointer' }}
+              >
+                <Card.Meta
+                  title={recipesPostre.title}
+                  description={recipesPostre.description}
                 />
               </Card>
             </Col>
