@@ -6,6 +6,10 @@ import LoginPage from '/Users/Jose-PC/Downloads/Proyecto React/proyecto-final/sr
 import RegisterPage from '/Users/Jose-PC/Downloads/Proyecto React/proyecto-final/src/Pages/RegisterPage/View/RegisterPage';
 import MainPage2 from '/Users/Jose-PC/Downloads/Proyecto React/proyecto-final/src/Pages/Login-MainPage/View/MainPage2'
 import RecipePage from '/Users/Jose-PC/Downloads/Proyecto React/proyecto-final/src/Pages/RecipePage/View/RecipePage';
+import BlogPageLG from  '/Users/Jose-PC/Downloads/Proyecto React/proyecto-final/src/Pages/BlogPage/View/BlogPageLG';
+import MainPageLG from '/Users/Jose-PC/Downloads/Proyecto React/proyecto-final/src/Pages/MainPage/View/MainPageLG';
+import RecipePageLG from '/Users/Jose-PC/Downloads/Proyecto React/proyecto-final/src/Pages/RecipePage/View/RecipePageLG';
+
 
 const Rutas: React.FC = () => {
   return (
@@ -16,7 +20,12 @@ const Rutas: React.FC = () => {
         <Route path="/blog" element={<BlogPage />} />
         <Route path="/login" element={<LoginPage />} />
         <Route path="/registro" element={<RegisterPage />} />
-        <Route path="/Recetas" element={<RecipePage/>}/>  
+        <Route path="/Recetas" element={<RecipePage/>}/> 
+        <Route path="/blog" element={<BlogPageLG />} />
+        <Route path="/" element={<MainPageLG />} />
+        <Route path="/Recetas" element={<RecipePageLG/>}/>
+        
+
       </Routes>
     </Router>
   );
