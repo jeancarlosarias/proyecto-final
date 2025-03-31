@@ -1,22 +1,19 @@
-import React from "react";
+import React, { useState } from "react";
 import { Button, Checkbox, Form, Input, Select, Card, message } from "antd";
 import "/Users/Jose-PC/Downloads/Proyecto React/proyecto-final/src/Styles/Global.css";
-import { useNavigate } from "react-router-dom"; // Import useNavigate for navigation
-import { getTransitionName } from "antd/es/_util/motion";
+import { useNavigate } from "react-router-dom";
 
 const url = "https://localhost:7068/api/CreateLogin";
-const UsersPath = "/api/CreateLogin";
-
 const { Option } = Select;
 
 const formItemLayout = {
   labelCol: {
     xs: { span: 24 },
-    sm: { span: 6 }, // Ajustado para pantallas pequeñas y mayores
+    sm: { span: 6 },
   },
   wrapperCol: {
     xs: { span: 24 },
-    sm: { span: 18 }, // Ajustado para pantallas pequeñas y mayores
+    sm: { span: 18 },
   },
 };
 
@@ -27,63 +24,74 @@ const tailFormItemLayout = {
       offset: 0,
     },
     sm: {
-      span: 18, // Ajustado para pantallas pequeñas y mayores
-      offset: 6, // Ajustado para pantallas pequeñas y mayores
+      span: 18,
+      offset: 6,
     },
   },
 };
 
 const RegisterPage: React.FC = () => {
   const [form] = Form.useForm();
-  const navigate = useNavigate(); // Initialize useNavigate
+  const navigate = useNavigate();
+  const [loading, setLoading] = useState(false); // 🚨 Estado de carga añadido
 
   const onFinish = async (values: any) => {
+    setLoading(true); // Activar el spinner/loading
+
     try {
+      // Simulación de delay (opcional, pero recomendado para pruebas)
+      await new Promise((resolve) => setTimeout(resolve, 1500));
+
       const userData = {
         UserFirstName: values.Nombre,
         UserLastName: values.Apellido,
         UserEmail: values.email,
         UserPhone: `${values.prefix}${values.phone}`,
-        UserRol: "User", // Set default role as "User"
-        UserSalt: "string",
-        UserEncryptionKey: "string",
       };
+
       const response = await fetch(url, {
-        // No concatenar userData a la URL
-        method: "POST", // Especificar el método POST
+        method: "POST",
+        mode: "no-cors",
+        credentials: "same-origin",
         headers: {
-          "Content-Type": "application/json", // Indicar que el cuerpo es JSON
-          clientPassword: values.password, // Mantener tu header personalizado si es necesario
+          "Content-Type": "application/json",
+          clientPassword: values.password,
         },
-        body: JSON.stringify(userData), // Convertir el objeto userData a una cadena JSON y enviarlo en el cuerpo
+        body: JSON.stringify(userData),
       });
 
-      console.log("Registro exitoso:", response);
+      // Verificar si la respuesta es exitosa (ej: 200-299)
+      if (!response.ok) {
+        const errorData = await response.json(); // Si el backend devuelve un JSON con detalles
+        throw new Error(errorData.message || "Error en el registro");
+      }
+
       message.success("Usuario registrado exitosamente!");
-      form.resetFields(); // Clear the form after successful registration
-      navigate("/login"); // Navigate to the login page after successful registration
+      form.resetFields();
+      navigate("/login");
     } catch (error: any) {
-      console.error(
-        "Error al registrar usuario:",
-        error.response ? error.response.data : error.message
+      console.error("Error al registrar usuario:", error);
+      message.error(
+        error.message ||
+          "Hubo un error al registrar el usuario. Intente nuevamente."
       );
-      message.error("Hubo un error al registrar el usuario.");
+    } finally {
+      setLoading(false); // Desactivar el spinner/loading
     }
   };
 
   const prefixSelector = (
     <Form.Item name="prefix" noStyle>
-      {" "}
       <Select style={{ width: 70 }}>
-        <Option value="+1">+1</Option>{" "}
-      </Select>{" "}
+        <Option value="+1">+1</Option>
+      </Select>
     </Form.Item>
   );
 
   const cardStyles = {
     boxShadow: "0 4px 8px rgba(0, 0, 0, 0.1)",
-    width: "100%", // Asegura que la tarjeta se ajuste al contenedor
-    maxWidth: "800px", // Opcional: Establece un ancho máximo para pantallas grandes
+    width: "100%",
+    maxWidth: "800px",
   };
 
   return (
@@ -111,6 +119,7 @@ const RegisterPage: React.FC = () => {
           >
             <Input />
           </Form.Item>
+
           <Form.Item
             name="Apellido"
             label="Apellido"
@@ -125,6 +134,7 @@ const RegisterPage: React.FC = () => {
           >
             <Input />
           </Form.Item>
+
           <Form.Item
             name="email"
             label="Correo Electrónico"
@@ -141,6 +151,7 @@ const RegisterPage: React.FC = () => {
           >
             <Input />
           </Form.Item>
+
           <Form.Item
             name="password"
             label="Contraseña"
@@ -154,6 +165,7 @@ const RegisterPage: React.FC = () => {
           >
             <Input.Password />
           </Form.Item>
+
           <Form.Item
             name="confirm"
             label="Confirma la Contraseña"
@@ -178,6 +190,7 @@ const RegisterPage: React.FC = () => {
           >
             <Input.Password />
           </Form.Item>
+
           <Form.Item
             name="phone"
             label="Número Telefónico"
@@ -190,6 +203,7 @@ const RegisterPage: React.FC = () => {
           >
             <Input addonBefore={prefixSelector} style={{ width: "100%" }} />
           </Form.Item>
+
           <Form.Item
             name="agreement"
             valuePropName="checked"
@@ -207,9 +221,14 @@ const RegisterPage: React.FC = () => {
               He leído el <a href="">acuerdo</a>
             </Checkbox>
           </Form.Item>
+
           <Form.Item {...tailFormItemLayout}>
-            <Button type="primary" htmlType="submit">
-              Registrar
+            <Button
+              type="primary"
+              htmlType="submit"
+              loading={loading} // 🔄 Spinner integrado de Ant Design
+            >
+              {loading ? "Registrando..." : "Registrar"}
             </Button>
           </Form.Item>
         </Form>
