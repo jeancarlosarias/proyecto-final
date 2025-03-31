@@ -2,8 +2,10 @@ import React from "react";
 import { Button, Checkbox, Form, Input, Select, Card, message } from "antd";
 import "/Users/Jose-PC/Downloads/Proyecto React/proyecto-final/src/Styles/Global.css";
 import { useNavigate } from "react-router-dom"; // Import useNavigate for navigation
+import { getTransitionName } from "antd/es/_util/motion";
 
 const url = "https://localhost:7068/api/CreateLogin";
+const UsersPath = "/api/CreateLogin";
 
 const { Option } = Select;
 
@@ -86,9 +88,7 @@ const RegisterPage: React.FC = () => {
 
   return (
     <div className="center-container">
-             {" "}
       <Card title="Formulario de Registro" style={cardStyles}>
-               {" "}
         <Form
           {...formItemLayout}
           form={form}
@@ -97,7 +97,6 @@ const RegisterPage: React.FC = () => {
           initialValues={{ prefix: "+1" }}
           scrollToFirstError
         >
-                   {" "}
           <Form.Item
             name="Nombre"
             label="Nombre"
@@ -110,9 +109,8 @@ const RegisterPage: React.FC = () => {
               },
             ]}
           >
-            <Input />{" "}
+            <Input />
           </Form.Item>
-                   {" "}
           <Form.Item
             name="Apellido"
             label="Apellido"
@@ -125,9 +123,8 @@ const RegisterPage: React.FC = () => {
               },
             ]}
           >
-                        <Input />         {" "}
+            <Input />
           </Form.Item>
-                   {" "}
           <Form.Item
             name="email"
             label="Correo Electrónico"
@@ -142,9 +139,8 @@ const RegisterPage: React.FC = () => {
               },
             ]}
           >
-                        <Input />         {" "}
+            <Input />
           </Form.Item>
-                   {" "}
           <Form.Item
             name="password"
             label="Contraseña"
@@ -156,9 +152,8 @@ const RegisterPage: React.FC = () => {
             ]}
             hasFeedback
           >
-                        <Input.Password />         {" "}
+            <Input.Password />
           </Form.Item>
-                   {" "}
           <Form.Item
             name="confirm"
             label="Confirma la Contraseña"
@@ -181,8 +176,8 @@ const RegisterPage: React.FC = () => {
               }),
             ]}
           >
-            <Input.Password />{" "}
-          </Form.Item>{" "}
+            <Input.Password />
+          </Form.Item>
           <Form.Item
             name="phone"
             label="Número Telefónico"
@@ -193,12 +188,8 @@ const RegisterPage: React.FC = () => {
               },
             ]}
           >
-            {" "}
-            <Input
-              addonBefore={prefixSelector}
-              style={{ width: "100%" }}
-            />{" "}
-          </Form.Item>{" "}
+            <Input addonBefore={prefixSelector} style={{ width: "100%" }} />
+          </Form.Item>
           <Form.Item
             name="agreement"
             valuePropName="checked"
@@ -212,24 +203,17 @@ const RegisterPage: React.FC = () => {
             ]}
             {...tailFormItemLayout}
           >
-            {" "}
             <Checkbox>
-              He leído el <a href="">acuerdo</a>{" "}
-            </Checkbox>{" "}
+              He leído el <a href="">acuerdo</a>
+            </Checkbox>
           </Form.Item>
-                   {" "}
           <Form.Item {...tailFormItemLayout}>
-                       {" "}
             <Button type="primary" htmlType="submit">
-                            Registrar            {" "}
+              Registrar
             </Button>
-                     {" "}
           </Form.Item>
-                 {" "}
         </Form>
-             {" "}
       </Card>
-         {" "}
     </div>
   );
 };
