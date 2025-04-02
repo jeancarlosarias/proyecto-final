@@ -69,7 +69,7 @@ const LoginPage: React.FC = () => {
         sessionStorage.setItem("username", values.username);
       }
       message.success("¡Inicio de sesión exitoso!");
-      navigate("/");
+      navigate("/inicio");
     } else {
       message.error(response.message || "No se pudo iniciar sesión");
     }

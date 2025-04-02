@@ -1,9 +1,12 @@
-import React, { useState } from "react";
+import React from "react";
 import { Button, Checkbox, Form, Input, Select, Card, message } from "antd";
 import "/Users/Jose-PC/Downloads/Proyecto React/proyecto-final/src/Styles/Global.css";
 import { useNavigate } from "react-router-dom";
+import { useState } from "react";
 
-const url = "https://localhost:7068/api/CreateLogin";
+const url = "https://localhost:7068";
+const Userspath = "/api/CreateLogin";
+
 const { Option } = Select;
 
 const formItemLayout = {
@@ -33,26 +36,21 @@ const tailFormItemLayout = {
 const RegisterPage: React.FC = () => {
   const [form] = Form.useForm();
   const navigate = useNavigate();
-  const [loading, setLoading] = useState(false); // 🚨 Estado de carga añadido
 
   const onFinish = async (values: any) => {
-    setLoading(true); // Activar el spinner/loading
-
     try {
-      // Simulación de delay (opcional, pero recomendado para pruebas)
-      await new Promise((resolve) => setTimeout(resolve, 1500));
-
       const userData = {
         UserFirstName: values.Nombre,
         UserLastName: values.Apellido,
         UserEmail: values.email,
         UserPhone: `${values.prefix}${values.phone}`,
+        UserRol: "User",
+        UserSalt: "string",
+        UserEncryptionKey: "string",
       };
 
-      const response = await fetch(url, {
+      const response = await fetch(url + Userspath, {
         method: "POST",
-        mode: "no-cors",
-        credentials: "same-origin",
         headers: {
           "Content-Type": "application/json",
           clientPassword: values.password,
@@ -60,23 +58,14 @@ const RegisterPage: React.FC = () => {
         body: JSON.stringify(userData),
       });
 
-      // Verificar si la respuesta es exitosa (ej: 200-299)
-      if (!response.ok) {
-        const errorData = await response.json(); // Si el backend devuelve un JSON con detalles
-        throw new Error(errorData.message || "Error en el registro");
-      }
-
+      const data = await response.json();
+      console.log("Registro exitoso:", data);
       message.success("Usuario registrado exitosamente!");
       form.resetFields();
       navigate("/login");
     } catch (error: any) {
-      console.error("Error al registrar usuario:", error);
-      message.error(
-        error.message ||
-          "Hubo un error al registrar el usuario. Intente nuevamente."
-      );
-    } finally {
-      setLoading(false); // Desactivar el spinner/loading
+      console.error("Error al registrar usuario:", error.message);
+      message.error("Hubo un error al registrar el usuario.");
     }
   };
 
@@ -223,12 +212,8 @@ const RegisterPage: React.FC = () => {
           </Form.Item>
 
           <Form.Item {...tailFormItemLayout}>
-            <Button
-              type="primary"
-              htmlType="submit"
-              loading={loading} // 🔄 Spinner integrado de Ant Design
-            >
-              {loading ? "Registrando..." : "Registrar"}
+            <Button type="primary" htmlType="submit">
+              Registrar
             </Button>
           </Form.Item>
         </Form>

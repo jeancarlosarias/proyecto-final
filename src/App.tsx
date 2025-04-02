@@ -1,6 +1,5 @@
-import React from 'react';
-import Rutas from './Components/rutas'; // Asegúrate de importar correctamente
-
+import React from "react";
+import Rutas from "./Components/rutas"; // Asegúrate de importar correctamente
 
 const App: React.FC = () => {
   return (

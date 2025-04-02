@@ -12,7 +12,11 @@ import {
 } from "antd";
 import "/Users/Jose-PC/Downloads/Proyecto React/proyecto-final/src/Styles/Global.css";
 import { Link, useNavigate } from "react-router-dom";
-import { UserOutlined, LogoutOutlined } from "@ant-design/icons";
+import {
+  LogoutOutlined,
+  SettingOutlined,
+  UserOutlined,
+} from "@ant-design/icons";
 
 const { Header, Content, Footer } = Layout;
 const { Title, Paragraph } = Typography;
@@ -145,7 +149,7 @@ const recipesPostre = [
   },
 ];
 
-const BlogPage: React.FC = () => {
+const BlogPage2: React.FC = () => {
   const navigate = useNavigate();
 
   const handleCardClick = (recipeId: number) => {
@@ -188,7 +192,7 @@ const BlogPage: React.FC = () => {
               <Link to="/">Inicio</Link>
             </Menu.Item>
             <Menu.Item key="2">
-              <Link to="/recetaslg">Recetas</Link>
+              <Link to="/recetas">Recetas</Link>
             </Menu.Item>
             <Menu.Item key="3">
               <Link to="/blog">Blog</Link>
@@ -203,8 +207,14 @@ const BlogPage: React.FC = () => {
               selectedKeys={[]}
               style={{ borderBottom: "none" }}
             >
-              <Menu.Item key="4">
-                <Link to="/login">Login</Link>
+              <Menu.Item key="4" icon={<UserOutlined />}>
+                <Link to="/User">Usuario</Link>
+              </Menu.Item>
+              <Menu.Item key="5" icon={<SettingOutlined />}>
+                <Link to="/login">Configuracion</Link>
+              </Menu.Item>
+              <Menu.Item key="6" icon={<LogoutOutlined />}>
+                <Link to="/login">Salir</Link>
               </Menu.Item>
             </Menu>
           </div>
@@ -296,4 +306,4 @@ const BlogPage: React.FC = () => {
   );
 };
 
-export default BlogPage;
+export default BlogPage2;

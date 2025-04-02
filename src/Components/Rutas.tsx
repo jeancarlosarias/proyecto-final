@@ -16,16 +16,14 @@ const Rutas: React.FC = () => {
     <Router>
       <Routes>
         <Route path="/" element={<MainPage />} />
-        <Route path="/inicio" element={<MainPage2 />} />
-        <Route path="/blog" element={<BlogPage />} />
-        <Route path="/login" element={<LoginPage />} />
-        <Route path="/registro" element={<RegisterPage />} />
-        <Route path="/Recetas" element={<RecipePage/>}/> 
-        <Route path="/blog" element={<BlogPageLG />} />
-        <Route path="/" element={<MainPageLG />} />
-        <Route path="/Recetas" element={<RecipePageLG/>}/>
-        
-
+        <Route path="/Inicio" element={<MainPage2 />} />
+        <Route path="/Blog" element={<BlogPage />} />
+        <Route path="/Login" element={<LoginPage />} />
+        <Route path="/Registro" element={<RegisterPage />} />
+        <Route path="/Recetas" element={<RecipePage />} />
+        <Route path="/Recetaslg" element={<RecipePage2 />} />
+        <Route path="/Bloglg" element={<BlogPage2 />} />
+        <Route path="/User" element={<UserPage />} />
       </Routes>
     </Router>
   );
