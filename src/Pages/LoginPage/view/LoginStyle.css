@@ -4,7 +4,8 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    padding: 2rem;
+    padding: 10rem;
+        
   }
   
   .login-card { /* Estilos para el Card de Ant Design */
