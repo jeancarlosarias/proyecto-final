@@ -68,7 +68,7 @@ const getLogin = async ({clientEmail, clientPassword}) => {
     }
 };
 
-// Funcion para obtener un favorite por ID
+// Funcion para obtener un usuario por ID
 const getUserById = async (id) => {
     try {
         const response = await fetch(`${API_BASE_URL}/Users/${id}`);
