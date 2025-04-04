@@ -152,7 +152,7 @@ const MainPage: React.FC = () => {
               // Forma alternativa y más moderna de definir items
               { key: "1", label: <Link to="/">Inicio</Link> },
               { key: "2", label: <Link to="/recetaslg">Recetas</Link> },
-              { key: "3", label: <Link to="/blog">Blog</Link> },
+              { key: "3", label: <Link to="/bloglg">Blog</Link> },
             ]}
           />
 
@@ -196,13 +196,13 @@ const MainPage: React.FC = () => {
                       icon: <SettingOutlined />,
                       label: <Link to="/configuracion">Configuración</Link>, // Cambia la ruta si es necesario
                     }
-                  : //  {
-                    //     key: "logout",
-                    //     icon: <LogoutOutlined />,
-                    //     label: "Salir",
-                    //     onClick: handleLogout, // Llama a la función de logout al hacer clic
-                    //   },
-                    null, // No muestra nada si no está logueado
+                  : {
+                      key: "logout",
+                      icon: <LogoutOutlined />,
+                      label: <Link to="/login">Salir</Link>,
+                      onClick: handleLogout, // Llama a la función de logout al hacer clic
+                    },
+                null, // No muestra nada si no está logueado
               ].filter((item) => item !== null)} // Filtra los items nulos (el de logout cuando no aplica)
             />
           </div>
@@ -300,7 +300,7 @@ const MainPage: React.FC = () => {
         </div>
       </Content>
       <Footer style={{ textAlign: "center" }}>
-        Dominican Delights ©{new Date().getFullYear()} Creado con Ant Design
+        Dominican Delights ©{new Date().getFullYear()}
       </Footer>
     </Layout>
   );

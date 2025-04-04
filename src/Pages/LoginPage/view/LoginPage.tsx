@@ -125,8 +125,6 @@ const LoginPage: React.FC = () => {
         </Form>
         <div style={{ textAlign: "center", marginTop: "16px" }}>
           <Link to="/Registro">Regístrate</Link>
-          <span style={{ margin: "0 8px" }}>|</span>
-          <a href="">¿Has olvidado tu contraseña?</a>
         </div>
       </Card>
     </div>
