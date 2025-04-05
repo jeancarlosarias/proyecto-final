@@ -9,6 +9,7 @@ import RecipePage from "/Users/Jose-PC/Downloads/Proyecto React/proyecto-final/s
 import BlogPageLG from "/Users/Jose-PC/Downloads/Proyecto React/proyecto-final/src/Pages/Login-BlogPage/View/BlogPage2";
 import RecipePageLG from "/Users/Jose-PC/Downloads/Proyecto React/proyecto-final/src/Pages/Login-RecipePage/view/RecipePage2";
 import UserPage from "/Users/Jose-PC/Downloads/Proyecto React/proyecto-final/src/Pages/UserPage/view/UserPage";
+import CreateRecipe from "/Users/Jose-PC/Downloads/Proyecto React/proyecto-final/src/Pages/CreateRecipe/View/CreateRecipe";
 
 const Rutas: React.FC = () => {
   return (
@@ -23,6 +24,7 @@ const Rutas: React.FC = () => {
         <Route path="/Recetaslg" element={<RecipePageLG />} />
         <Route path="/Bloglg" element={<BlogPageLG />} />
         <Route path="/User" element={<UserPage />} />
+        <Route path="/CreateRecipe" element={<CreateRecipe />} />
       </Routes>
     </Router>
   );
