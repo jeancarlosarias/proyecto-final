@@ -37,10 +37,10 @@ const items = Array.from({ length: 15 }).map((_, index) => ({
 }));
 
 const carouselImages = [
-  "/src/assets/images copy/WhatsApp Image 2025-03-23 at 21.26.47_5c58729d.jpg",
-  "/src/assets/images copy/WhatsApp Image 2025-03-23 at 21.26.47_a88c8c67.jpg",
-  "/src/assets/images copy/WhatsApp Image 2025-03-23 at 21.26.47_ab1339bc.jpg",
-  "/src/assets/images copy/WhatsApp Image 2025-03-23 at 21.26.47_c3d00ab9.jpg",
+  "/src/assets/images/WhatsApp Image 2025-03-23 at 21.26.47_5c58729d.jpg",
+  "/src/assets/images/WhatsApp Image 2025-03-23 at 21.26.47_a88c8c67.jpg",
+  "/src/assets/images/WhatsApp Image 2025-03-23 at 21.26.47_ab1339bc.jpg",
+  "/src/assets/images/WhatsApp Image 2025-03-23 at 21.26.47_c3d00ab9.jpg",
 ];
 
 const recipes = [
@@ -146,13 +146,17 @@ const MainPage2: React.FC = () => {
           <Menu
             theme="dark"
             mode="horizontal"
-            defaultSelectedKeys={["1"]} // O podrías basarlo en la ruta actual
+            defaultSelectedKeys={["4"]} // O podrías basarlo en la ruta actual
             style={{ flex: 1, borderBottom: "none" }}
             items={[
               // Forma alternativa y más moderna de definir items
               { key: "1", label: <Link to="/">Inicio</Link> },
               { key: "2", label: <Link to="/recetaslg">Recetas</Link> },
               { key: "3", label: <Link to="/bloglg">Blog</Link> },
+              {
+                key: "4",
+                label: <Link to="/CreateRecipe">Crea tu receta</Link>,
+              },
             ]}
           />
 
@@ -175,8 +179,7 @@ const MainPage2: React.FC = () => {
                           to="/perfil"
                           style={{ color: "rgba(255, 255, 255, 0.85)" }}
                         >
-                          {" "}
-                          {/* Enlace a perfil */}
+                          {"/User"}
                           {loggedInUsername} {/* Muestra el nombre! */}
                         </Link>
                       ),
@@ -188,23 +191,22 @@ const MainPage2: React.FC = () => {
                       label: <Link to="/login">Iniciar Sesión</Link>,
                     },
                 // Mantenemos Configuración si es necesario
-
-                // Botón de Salir (solo si está logueado)
                 loggedInUsername
                   ? {
                       key: "settings",
                       icon: <SettingOutlined />,
                       label: <Link to="/configuracion">Configuración</Link>, // Cambia la ruta si es necesario
                     }
-                  : {
+                  : null,
+                // Botón de Salir (solo si está logueado)
+                loggedInUsername
+                  ? {
                       key: "logout",
                       icon: <LogoutOutlined />,
-                      label: <Link to="/login">Salir</Link>,
-                      onClick: handleLogout, // Llama a la función de logout al hacer clic
-                    },
-
-                null, // No muestra nada si no está logueado
-              ].filter((item) => item !== null)} // Filtra los items nulos (el de logout cuando no aplica)
+                      label: <span onClick={handleLogout}>Salir</span>, // Llama a la función de logout al hacer clic
+                    }
+                  : null,
+              ].filter((item) => item !== null)}
             />
           </div>
         </div>
