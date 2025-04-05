@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import {
   Layout,
   Menu,
@@ -12,7 +12,11 @@ import {
 } from "antd";
 import "/Users/Jose-PC/Downloads/Proyecto React/proyecto-final/src/Styles/Global.css";
 import { Link, useNavigate } from "react-router-dom";
-import { UserOutlined, LogoutOutlined } from "@ant-design/icons";
+import {
+  UserOutlined,
+  LogoutOutlined,
+  SettingOutlined,
+} from "@ant-design/icons";
 
 const { Header, Content, Footer } = Layout;
 const { Title, Paragraph } = Typography;
@@ -24,7 +28,8 @@ const recipes = [
     id: 1,
     title: "Sancocho Dominicano",
     description: "El tradicional guiso de siete carnes",
-    image: "https://example.com/sancocho.jpg",
+    image:
+      "/src/assets/images/Sancocho Dominicano Recipe - Poised Finance & Lifestyle.jpeg",
     content: "Receta completa aquí...",
   },
   {
@@ -38,7 +43,8 @@ const recipes = [
     id: 2,
     title: "Mangú",
     description: "Plátanos verdes majados con los tres golpes",
-    image: "/src/assets/images/how-to-make-mangu-DSC6702 (1).jpg",
+    image:
+      "/src/assets/images/Fried Sweet Plantain Slices (Plátanos Maduros Fritos).jpeg",
     content: "Receta completa aquí...",
   },
   {
@@ -152,6 +158,37 @@ const BlogPage: React.FC = () => {
     navigate(`/recipe/${recipeId}`);
   };
 
+  const [loggedInUsername, setLoggedInUsername] = useState<string | null>(null);
+
+  // useEffect para leer el nombre de usuario del storage al cargar el componente
+  useEffect(() => {
+    const usernameFromLocalStorage = localStorage.getItem("username");
+    const usernameFromSessionStorage = sessionStorage.getItem("username");
+
+    // Usa el nombre de usuario que encuentres (prioriza localStorage si ambos existen)
+    const username = usernameFromLocalStorage || usernameFromSessionStorage;
+
+    if (username) {
+      setLoggedInUsername(username);
+    }
+    // El array vacío [] como segundo argumento asegura que esto se ejecute solo una vez al montar
+  }, []);
+
+  // Función para manejar el logout
+  const handleLogout = () => {
+    // Limpia ambos storages por si acaso
+    localStorage.removeItem("isLoggedIn");
+    localStorage.removeItem("username");
+    sessionStorage.removeItem("isLoggedIn");
+    sessionStorage.removeItem("username");
+
+    // Limpia el estado local
+    setLoggedInUsername(null);
+
+    // Redirige a la página de login
+    navigate("/login"); // Asegúrate que tu ruta de login sea '/login'
+  };
+
   return (
     <Layout className="layout">
       <Header
@@ -159,6 +196,10 @@ const BlogPage: React.FC = () => {
           display: "flex",
           alignItems: "center",
           justifyContent: "space-between",
+          position: "sticky", // Para que el header se quede fijo arriba
+          top: 0, // Para que el header se quede fijo arriba
+          zIndex: 1, // Para que el header se quede por encima del contenido
+          width: "100%", // Para que ocupe todo el ancho
         }}
       >
         {/* Logo */}
@@ -181,36 +222,72 @@ const BlogPage: React.FC = () => {
           <Menu
             theme="dark"
             mode="horizontal"
-            defaultSelectedKeys={["3"]}
+            defaultSelectedKeys={["3"]} // O podrías basarlo en la ruta actual
             style={{ flex: 1, borderBottom: "none" }}
-          >
-            <Menu.Item key="1">
-              <Link to="/">Inicio</Link>
-            </Menu.Item>
-            <Menu.Item key="2">
-              <Link to="/recetaslg">Recetas</Link>
-            </Menu.Item>
-            <Menu.Item key="3">
-              <Link to="/blog">Blog</Link>
-            </Menu.Item>
-          </Menu>
+            items={[
+              // Forma alternativa y más moderna de definir items
+              { key: "1", label: <Link to="/">Inicio</Link> },
+              { key: "2", label: <Link to="/recetaslg">Recetas</Link> },
+              { key: "3", label: <Link to="/bloglg">Blog</Link> },
+              {
+                key: "4",
+                label: <Link to="/CreateRecipe">Crea tu receta</Link>,
+              },
+            ]}
+          />
 
-          {/* Contenedor derecha (Buscador + Auth) */}
+          {/* Iconos de Usuario / Configuración / Salir */}
           <div style={{ display: "flex", alignItems: "center", gap: "15px" }}>
             <Menu
               theme="dark"
               mode="horizontal"
-              selectedKeys={[]}
+              selectable={false} // Para que no se quede marcado un ícono
               style={{ borderBottom: "none" }}
-            >
-              <Menu.Item key="4">
-                <Link to="/login">Login</Link>
-              </Menu.Item>
-            </Menu>
+              // Los items ahora pueden mostrar el nombre de usuario o manejar el logout
+              items={[
+                // Muestra el nombre de usuario si está logueado
+                loggedInUsername
+                  ? {
+                      key: "user",
+                      icon: <UserOutlined />,
+                      label: (
+                        <Link
+                          to="/User"
+                          style={{ color: "rgba(255, 255, 255, 0.85)" }}
+                        >
+                          {" "}
+                          {/* Enlace a perfil */}
+                          {loggedInUsername} {/* Muestra el nombre! */}
+                        </Link>
+                      ),
+                    }
+                  : {
+                      // Si no está logueado, podría mostrar un enlace a Login
+                      key: "login",
+                      icon: <UserOutlined />,
+                      label: <Link to="/login">Iniciar Sesión</Link>,
+                    },
+                // Mantenemos Configuración si es necesario
+                loggedInUsername
+                  ? {
+                      key: "settings",
+                      icon: <SettingOutlined />,
+                      label: <Link to="/configuracion">Configuración</Link>, // Cambia la ruta si es necesario
+                    }
+                  : null,
+                // Botón de Salir (solo si está logueado)
+                loggedInUsername
+                  ? {
+                      key: "logout",
+                      icon: <LogoutOutlined />,
+                      label: <span onClick={handleLogout}>Salir</span>, // Llama a la función de logout al hacer clic
+                    }
+                  : null,
+              ].filter((item) => item !== null)}
+            />
           </div>
         </div>
       </Header>
-
       <Content style={{ padding: "0 50px" }}>
         <div
           style={{
