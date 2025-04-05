@@ -20,6 +20,7 @@ import {
   UserOutlined,
   // SettingOutlined, // No usado actualmente
   LogoutOutlined,
+  SettingOutlined,
 } from "@ant-design/icons";
 
 // --- Interfaz ---
@@ -134,7 +135,7 @@ const RecipePage2: React.FC = () => {
           // para que la paginación funcione. Asumimos que está en 'data.totalCount'.
           // Si tu API lo devuelve en otro campo, ajústalo aquí.
           // Si no lo devuelve, la paginación será incorrecta.
-          setTotalRecipes(data.totalCount || 20); // <--- AJUSTA ESTO según tu API
+          setTotalRecipes(data.totalCount || 100); // <--- AJUSTA ESTO según tu API
         }
 
         setLoading(false);
@@ -200,91 +201,94 @@ const RecipePage2: React.FC = () => {
           display: "flex",
           alignItems: "center",
           justifyContent: "space-between",
-          position: "sticky",
-          top: 0,
-          zIndex: 10, // Incrementado para asegurar que esté sobre el contenido
-          width: "100%",
-          padding: "0 24px", // Reducido el padding horizontal si es necesario
-          backgroundColor: "#001529", // O el color que prefieras para el header
+          position: "sticky", // Para que el header se quede fijo arriba
+          top: 0, // Para que el header se quede fijo arriba
+          zIndex: 1, // Para que el header se quede por encima del contenido
+          width: "100%", // Para que ocupe todo el ancho
         }}
       >
+        {/* Logo */}
         <div className="logo" style={{ marginRight: "20px" }}>
           <Title level={3} style={{ color: "white", margin: 0 }}>
-            <Link to="/" style={{ color: "inherit", textDecoration: "none" }}>
-              {" "}
-              {/* Enlace en el logo */}
-              Dominican Delights
-            </Link>
+            Dominican Delights
           </Title>
         </div>
+
+        {/* Menú principal + Botones derecha */}
         <div
           style={{
             display: "flex",
             flexGrow: 1,
-            justifyContent: "space-between", // Esto empuja los menús a los extremos
+            justifyContent: "space-between",
             alignItems: "center",
           }}
         >
-          {/* Menú de Navegación Principal (a la izquierda después del logo) */}
+          {/* Menú Navegación */}
           <Menu
             theme="dark"
             mode="horizontal"
-            selectable={false} // Generalmente no seleccionas el menú principal así
-            style={{ flex: 1, borderBottom: "none", lineHeight: "64px" }} // Ajusta lineHeight
+            defaultSelectedKeys={["2"]} // O podrías basarlo en la ruta actual
+            style={{ flex: 1, borderBottom: "none" }}
             items={[
+              // Forma alternativa y más moderna de definir items
               { key: "1", label: <Link to="/">Inicio</Link> },
               { key: "2", label: <Link to="/recetaslg">Recetas</Link> },
               { key: "3", label: <Link to="/bloglg">Blog</Link> },
+              {
+                key: "4",
+                label: <Link to="/CreateRecipe">Crea tu receta</Link>,
+              },
             ]}
           />
 
-          {/* Menú de Usuario y Acciones (a la derecha) */}
+          {/* Iconos de Usuario / Configuración / Salir */}
           <div style={{ display: "flex", alignItems: "center", gap: "15px" }}>
-            {/* Barra de Búsqueda dentro del Header (opcional) */}
-            {/*
-             <Search
-                 placeholder="Buscar recetas..."
-                 onSearch={handleSearch}
-                 style={{ width: 200 }}
-                 // Puedes quitar loading de aquí si lo tienes más abajo
-             />
-             */}
             <Menu
               theme="dark"
               mode="horizontal"
-              selectable={false}
-              style={{ borderBottom: "none", lineHeight: "64px" }} // Ajusta lineHeight
+              selectable={false} // Para que no se quede marcado un ícono
+              style={{ borderBottom: "none" }}
+              // Los items ahora pueden mostrar el nombre de usuario o manejar el logout
               items={[
+                // Muestra el nombre de usuario si está logueado
                 loggedInUsername
                   ? {
                       key: "user",
                       icon: <UserOutlined />,
                       label: (
                         <Link
-                          to="/perfil"
+                          to="/User"
                           style={{ color: "rgba(255, 255, 255, 0.85)" }}
                         >
-                          {loggedInUsername}
+                          {""}
+                          {/* Enlace a perfil */}
+                          {loggedInUsername} {/* Muestra el nombre! */}
                         </Link>
                       ),
                     }
                   : {
+                      // Si no está logueado, podría mostrar un enlace a Login
                       key: "login",
                       icon: <UserOutlined />,
                       label: <Link to="/login">Iniciar Sesión</Link>,
                     },
+                // Mantenemos Configuración si es necesario
+                loggedInUsername
+                  ? {
+                      key: "settings",
+                      icon: <SettingOutlined />,
+                      label: <Link to="/configuracion">Configuración</Link>, // Cambia la ruta si es necesario
+                    }
+                  : null,
+                // Botón de Salir (solo si está logueado)
                 loggedInUsername
                   ? {
                       key: "logout",
                       icon: <LogoutOutlined />,
-                      // label: "Salir", // Sin texto, solo icono si prefieres
-                      onClick: handleLogout,
-                      title: "Salir", // Tooltip para accesibilidad
+                      label: <span onClick={handleLogout}>Salir</span>, // Llama a la función de logout al hacer clic
                     }
                   : null,
-              ].filter(
-                (item): item is NonNullable<typeof item> => item !== null
-              )} // Type guard para filtrar nulls
+              ].filter((item) => item !== null)}
             />
           </div>
         </div>
@@ -359,7 +363,7 @@ const RecipePage2: React.FC = () => {
                         <Paragraph ellipsis={{ rows: 3 }}>
                           {recipe.description}
                         </Paragraph>
-                      } // Limita descripción
+                      } // Limita descripciónw
                     />
                   </Card>
                 </Col>
