@@ -37,10 +37,10 @@ const items = Array.from({ length: 15 }).map((_, index) => ({
 }));
 
 const carouselImages = [
-  "/src/assets/images copy/WhatsApp Image 2025-03-23 at 21.26.47_5c58729d.jpg",
-  "/src/assets/images copy/WhatsApp Image 2025-03-23 at 21.26.47_a88c8c67.jpg",
-  "/src/assets/images copy/WhatsApp Image 2025-03-23 at 21.26.47_ab1339bc.jpg",
-  "/src/assets/images copy/WhatsApp Image 2025-03-23 at 21.26.47_c3d00ab9.jpg",
+  "/src/assets/images/WhatsApp Image 2025-03-23 at 21.26.47_5c58729d.jpg",
+  "/src/assets/images/WhatsApp Image 2025-03-23 at 21.26.47_a88c8c67.jpg",
+  "/src/assets/images/WhatsApp Image 2025-03-23 at 21.26.47_ab1339bc.jpg",
+  "/src/assets/images/WhatsApp Image 2025-03-23 at 21.26.47_c3d00ab9.jpg",
 ];
 
 const recipes = [
@@ -48,7 +48,8 @@ const recipes = [
     id: 1,
     title: "Sancocho Dominicano",
     description: "El tradicional guiso de siete carnes",
-    image: "https://example.com/sancocho.jpg", // Asegúrate que esta URL sea válida o usa una local
+    image:
+      "/src/assets/images/Sancocho Dominicano Recipe - Poised Finance & Lifestyle.jpeg", // Asegúrate que esta URL sea válida o usa una local
     content: "Receta completa aquí...",
   },
   {
@@ -60,16 +61,18 @@ const recipes = [
   },
   {
     id: 3, // IDs deben ser únicos
-    title: "Mangú duplicado 1", // Cambiado para ejemplo
+    title: "Platanos Maduros",
     description: "Plátanos verdes majados con los tres golpes",
-    image: "/src/assets/images/how-to-make-mangu-DSC6702 (1).jpg",
+    image:
+      "/src/assets/images/Fried Sweet Plantain Slices (Plátanos Maduros Fritos).jpeg",
     content: "Receta completa aquí...",
   },
   {
-    id: 4, // IDs deben ser únicos
-    title: "Mangú duplicado 2", // Cambiado para ejemplo
-    description: "Plátanos verdes majados con los tres golpes",
-    image: "/src/assets/images/how-to-make-mangu-DSC6702 (1).jpg",
+    id: 4,
+    title: "Locrio",
+    description:
+      "Un arroz guisado similar a la paella, preparado con carne (pollo, cerdo, longaniza o mariscos) y sazonado con especias dominicanas.",
+    image: "/src/assets/images/Dominican Moro-Locrio.jpeg",
     content: "Receta completa aquí...",
   },
 ];
@@ -152,7 +155,11 @@ const MainPage: React.FC = () => {
               // Forma alternativa y más moderna de definir items
               { key: "1", label: <Link to="/">Inicio</Link> },
               { key: "2", label: <Link to="/recetaslg">Recetas</Link> },
-              { key: "3", label: <Link to="/blog">Blog</Link> },
+              { key: "3", label: <Link to="/bloglg">Blog</Link> },
+              {
+                key: "4",
+                label: <Link to="/CreateRecipe">Crea tu receta</Link>,
+              },
             ]}
           />
 
@@ -188,22 +195,22 @@ const MainPage: React.FC = () => {
                       label: <Link to="/login">Iniciar Sesión</Link>,
                     },
                 // Mantenemos Configuración si es necesario
-
-                // Botón de Salir (solo si está logueado)
                 loggedInUsername
                   ? {
                       key: "settings",
                       icon: <SettingOutlined />,
                       label: <Link to="/configuracion">Configuración</Link>, // Cambia la ruta si es necesario
                     }
-                  : //  {
-                    //     key: "logout",
-                    //     icon: <LogoutOutlined />,
-                    //     label: "Salir",
-                    //     onClick: handleLogout, // Llama a la función de logout al hacer clic
-                    //   },
-                    null, // No muestra nada si no está logueado
-              ].filter((item) => item !== null)} // Filtra los items nulos (el de logout cuando no aplica)
+                  : null,
+                // Botón de Salir (solo si está logueado)
+                loggedInUsername
+                  ? {
+                      key: "logout",
+                      icon: <LogoutOutlined />,
+                      label: <span onClick={handleLogout}>Salir</span>, // Llama a la función de logout al hacer clic
+                    }
+                  : null,
+              ].filter((item) => item !== null)}
             />
           </div>
         </div>
@@ -300,7 +307,7 @@ const MainPage: React.FC = () => {
         </div>
       </Content>
       <Footer style={{ textAlign: "center" }}>
-        Dominican Delights ©{new Date().getFullYear()} Creado con Ant Design
+        Dominican Delights ©{new Date().getFullYear()}
       </Footer>
     </Layout>
   );
