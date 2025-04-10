@@ -21,6 +21,9 @@ const realLogin = async (
 ): Promise<LoginResponse> => {
   try {
     const data: LoginResponse = await userApi.getLogin({ clientEmail: useremail, clientPassword: userpassword });
+    console.log(data);
+    console.log("2", useremail);
+    console.log("3", userpassword);
     return data;
   } catch (error) {
     return {

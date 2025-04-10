@@ -9,10 +9,13 @@ import {
   InputNumber,
   Tag,
   Card,
+  Row,
+  Col
 } from "antd";
 import { Link, useNavigate } from "react-router-dom";
-import { PlusOutlined } from "@ant-design/icons"; // Importamos el ícono PlusOutlined
+import { PlusOutlined } from "@ant-design/icons";
 import recipeApi from "../../api/recipeApi";
+import ingredientApi from "../../api/ingredientApi.ts";
 
 import "./CreateRecipe.css";
 import AppHeader from "../../Components/Header.tsx";
@@ -28,37 +31,11 @@ interface Response {
   result: any;
 }
 
-const Recipe = async (
-  categories: string,
-  recipeUrl: string,
-  recipeName: string,
-  recipeDescription: string,
-  recipeInstruction: string,
-  recipePreparationTime: string,
-  recipePortion: number
-): Promise<Response> => {
-  try {
-    const data: Response = await recipeApi.createRecipe({
-      categories,
-      recipeUrl,
-      recipeName,
-      recipeDescription,
-      recipeInstruction,
-      recipePortion,
-      recipePreparationTime,
-    });
-    return data;
-  } catch (error) {
-    return {
-      success: false,
-      message:
-        error instanceof Error
-          ? error.message
-          : "Error al conectar con el servidor",
-      result: false,
-    };
-  }
-};
+interface Ingredient {
+  recipeId: number;
+  ingredientName: string;
+  ingredientUnit: string;
+}
 
 interface FormRecipe {
   categories: string;
@@ -68,30 +45,47 @@ interface FormRecipe {
   recipeInstruction: string;
   recipePreparationTime: string;
   recipePortion: number;
-  ingredients: string[];
+}
+
+interface IngredientForm {
+  name: string;
+  unit: string;
 }
 
 const CreateRecipe: React.FC = () => {
   const navigate = useNavigate();
   const [form] = Form.useForm();
   const [loading, setLoading] = useState(false);
-  const [ingredients, setIngredients] = useState<string[]>([]);
+  const [ingredients, setIngredients] = useState<IngredientForm[]>([]);
 
   const onFinish = async (values: FormRecipe) => {
     setLoading(true);
     try {
-      const response = await Recipe(
-        values.categories,
-        values.recipeUrl,
-        values.recipeName,
-        values.recipeDescription,
-        values.recipeInstruction,
-        values.recipePreparationTime,
-        values.recipePortion,
-      );
-
-      if (response.success) {
+      // Crear la receta primero
+      const recipeResponse = await recipeApi.createRecipe({
+        categories: values.categories,
+        recipeUrl: values.recipeUrl,
+        recipeName: values.recipeName,
+        recipeDescription: values.recipeDescription,
+        recipeInstruction: values.recipeInstruction,
+        recipePortion: values.recipePortion,
+        recipePreparationTime: values.recipePreparationTime,
+      });
+      console.log("1", recipeResponse);
+      if (recipeResponse.success) {
+        const recipeId = recipeResponse.result.recipeId;
+        const response = await Promise.all(
+          ingredients.map(ingredient =>
+            ingredientApi.createIngredient({
+              recipeId,
+              ingredientName: ingredient.name,
+              ingredientUnit: ingredient.unit
+            })
+          )
+        );
+        console.log("2", response);
         form.resetFields();
+        setIngredients([]);
         navigate("/recetaslg");
       }
     } catch (error) {
@@ -106,20 +100,22 @@ const CreateRecipe: React.FC = () => {
     console.log("Failed:", errorInfo);
   };
 
-  // Agregar un ingrediente dinámicamente
   const handleAddIngredient = () => {
-    const ingredient = form.getFieldValue("ingredient");
-    if (ingredient && !ingredients.includes(ingredient)) {
-      setIngredients([...ingredients, ingredient]);
-      form.setFieldsValue({ ingredient: "" }); // Limpiar el campo de ingrediente
+    const name = form.getFieldValue("ingredientName");
+    const unit = form.getFieldValue("ingredientUnit");
+
+    if (name && unit) {
+      setIngredients([...ingredients, { name, unit }]);
+      form.setFieldsValue({ ingredientName: "", ingredientUnit: "" });
     } else {
-      message.error("El ingrediente ya está en la lista o está vacio.");
+      message.error("Debes completar ambos campos del ingrediente");
     }
   };
 
-  // Eliminar un ingrediente de la lista
-  const handleRemoveIngredient = (ingredient: string) => {
-    setIngredients(ingredients.filter((item) => item !== ingredient));
+  const handleRemoveIngredient = (index: number) => {
+    const newIngredients = [...ingredients];
+    newIngredients.splice(index, 1);
+    setIngredients(newIngredients);
   };
 
   return (
@@ -136,6 +132,7 @@ const CreateRecipe: React.FC = () => {
             onFinish={onFinish}
             onFinishFailed={onFinishFailed}
           >
+            {/* Campos de la receta (sin cambios) */}
             <Form.Item
               label="Nombre de la Receta"
               name="recipeName"
@@ -177,11 +174,24 @@ const CreateRecipe: React.FC = () => {
             </Form.Item>
 
             <Form.Item
-              label="Tiempo de Preparación (minutos)"
+              label="Tiempo de Preparación (HH:MM:SS)"
               name="recipePreparationTime"
-              rules={[{ required: true, message: "Por favor, introduce el tiempo de preparacion!" }]}
+              rules={[
+                {
+                  required: true,
+                  message: "Por favor, introduce el tiempo de preparación!"
+                },
+                {
+                  pattern: /^([0-1][0-9]|2[0-3]):[0-5][0-9]:[0-5][0-9]$/,
+                  message: "Formato inválido. Usa HH:MM:SS (ej: 02:30:00)"
+                }
+              ]}
             >
-              <Input />
+              <Input
+                placeholder="00:00:00"
+                addonAfter="HH:MM:SS"
+                style={{ width: 200 }}
+              />
             </Form.Item>
 
             <Form.Item
@@ -195,16 +205,33 @@ const CreateRecipe: React.FC = () => {
               <InputNumber min={1} />
             </Form.Item>
 
-            {/* Ingredientes dinamicos */}
-            <Form.Item
-              label="Ingrediente"
-              name="ingredient"
-              rules={[{ required: true, message: "Por favor, introduce un ingrediente!" }]}
-            >
-              <Input.Search
-                enterButton={<PlusOutlined />} // Ícono de agregar ingrediente
-                onSearch={handleAddIngredient}
-              />
+            {/* Seccion de ingredientes */}
+            <Form.Item label="Ingredientes">
+              <Row gutter={8}>
+                <Col span={10}>
+                  <Form.Item
+                    name="ingredientName"
+                    rules={[{ required: false, message: "Nombre requerido" }]}
+                  >
+                    <Input placeholder="Nombre del ingrediente" />
+                  </Form.Item>
+                </Col>
+                <Col span={10}>
+                  <Form.Item
+                    name="ingredientUnit"
+                    rules={[{ required: false, message: "Unidad requerida" }]}
+                  >
+                    <Input placeholder="Unidad (ej: tazas, gramos)" />
+                  </Form.Item>
+                </Col>
+                <Col span={4}>
+                  <Button
+                    icon={<PlusOutlined />}
+                    onClick={handleAddIngredient}
+                    style={{ width: '100%' }}
+                  />
+                </Col>
+              </Row>
             </Form.Item>
 
             <div>
@@ -212,10 +239,10 @@ const CreateRecipe: React.FC = () => {
                 <Tag
                   key={index}
                   closable
-                  onClose={() => handleRemoveIngredient(ingredient)}
+                  onClose={() => handleRemoveIngredient(index)}
                   style={{ margin: 5 }}
                 >
-                  {ingredient}
+                  {ingredient.name} - {ingredient.unit}
                 </Tag>
               ))}
             </div>
