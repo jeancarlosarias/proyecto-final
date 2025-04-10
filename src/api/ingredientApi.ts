@@ -1,7 +1,21 @@
 const API_BASE_URL = "https://localhost:7068/api";
 
-// Función para crear un ingrediente
-const createIngredient = async (ingredient) => {
+interface createIngredient{
+    recipeId: number,
+    ingredientName: string,
+    ingredientUnit: string
+}
+
+interface updateIngredient extends createIngredient {}
+
+interface ApiResponse {
+    success: boolean;
+    message: string;
+    result: any;
+}
+
+// Funcion para crear un ingrediente
+const createIngredient = async (ingredient: createIngredient): Promise<ApiResponse> => {
     try {
         const response = await fetch(`${API_BASE_URL}/Ingredient`, {
             method: "POST",
@@ -18,17 +32,24 @@ const createIngredient = async (ingredient) => {
         return await response.json();
     } catch (error) {
         console.error("Error en crear un ingrediente:", error);
-        return { success: false, message: error.message };
+        const errorMessage = error instanceof Error ? error.message : "Unknown error";
+        return { success: false, message: errorMessage, result: null };
     }
 };
 
 // Funcion para obtener todos los ingredientes
-const getIngredients = async ({ limit, group } = {}) => {
+const getIngredients = async ({ 
+    limit, 
+    group 
+}: {
+    limit?: number;
+    group?: number;
+} = {}): Promise<ApiResponse> => {
     try {
         // Construir los parametros de consulta dinamicamente
         const queryParams = new URLSearchParams();
-        if (limit) queryParams.append("limit", limit);
-        if (group) queryParams.append("group", group);
+        if (limit) queryParams.append("limit", limit.toString());
+        if (group) queryParams.append("group", group.toString());
 
         // Crear la URL final con los parametros
         const url = `${API_BASE_URL}/Ingredient${queryParams.toString() ? `?${queryParams}` : ""}`;
@@ -41,13 +62,14 @@ const getIngredients = async ({ limit, group } = {}) => {
 
         return await response.json();
     } catch (error) {
-        console.error("Error en obtener ingrediente:", error);
-        return { success: false, message: error.message };
+        console.error("Error en obtener los ingredientes:", error);
+        const errorMessage = error instanceof Error ? error.message : "Unknown error";
+        return { success: false, message: errorMessage, result: null };
     }
 };
 
 // Funcion para obtener un ingrediente por ID
-const getIngredientById = async (id) => {
+const getIngredientById = async (id: number): Promise<ApiResponse> => {
     try {
         const response = await fetch(`${API_BASE_URL}/Ingredient/${id}`);
         if (!response.ok) {
@@ -55,13 +77,14 @@ const getIngredientById = async (id) => {
         }
         return await response.json();
     } catch (error) {
-        console.error("Error en obtener un ingrediente por ID:", error);
-        return { success: false, message: error.message };
+        console.error("Error en obtener un ingrediente:", error);
+        const errorMessage = error instanceof Error ? error.message : "Unknown error";
+        return { success: false, message: errorMessage, result: null };
     }
 };
 
 // Funcion para actualizar un ingrediente
-const updateIngredient = async (id, ingredient) => {
+const updateIngredient = async (id: number, ingredient: updateIngredient): Promise<ApiResponse> => {
     try {
         const response = await fetch(`${API_BASE_URL}/Ingredient/${id}`, {
             method: "PUT",
@@ -78,12 +101,13 @@ const updateIngredient = async (id, ingredient) => {
         return await response.json();
     } catch (error) {
         console.error("Error en actualizar un ingrediente:", error);
-        return { success: false, message: error.message };
+        const errorMessage = error instanceof Error ? error.message : "Unknown error";
+        return { success: false, message: errorMessage, result: null };
     }
 };
 
 // Funcion para eliminar un ingrediente
-const deleteIngredient = async (id) => {
+const deleteIngredient = async (id: number): Promise<ApiResponse> => {
     try {
         const response = await fetch(`${API_BASE_URL}/Ingredient/${id}`, {
             method: "DELETE",
@@ -96,7 +120,8 @@ const deleteIngredient = async (id) => {
         return await response.json();
     } catch (error) {
         console.error("Error en eliminar un ingrediente:", error);
-        return { success: false, message: error.message };
+        const errorMessage = error instanceof Error ? error.message : "Unknown error";
+        return { success: false, message: errorMessage, result: null };
     }
 };
 

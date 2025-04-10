@@ -1,29 +1,19 @@
 import React, { useState, useEffect } from "react"; // Importa useState y useEffect
 import {
-  Breadcrumb,
   Layout,
-  Menu,
   theme,
-  Carousel,
   Image,
   Typography,
-  Input,
   Row,
   Col,
   Card,
-  Button, // Importa Button si quieres usarlo para el logout
 } from "antd";
-import "/Users/Jose-PC/Downloads/Proyecto React/proyecto-final/src/Styles/global.css";
-import { Link, useNavigate } from "react-router-dom"; // Importa useNavigate
-import {
-  UserOutlined,
-  SettingOutlined,
-  LogoutOutlined,
-} from "@ant-design/icons";
+import { useNavigate } from "react-router-dom"; // Importa useNavigate
+import AppHeader from "../../Components/Header";
+import AppFooter from "../../Components/Footer.jsx";
 
-const { Header, Content, Footer } = Layout;
+const { Content } = Layout;
 const { Title, Paragraph } = Typography;
-const { Search } = Input;
 
 // Datos de ejemplo para las recetas
 const recipes = [
@@ -139,12 +129,11 @@ const recipesPostre = [
 
 const MainPage2: React.FC = () => {
   const {
-    token: { colorBgContainer, borderRadiusLG },
   } = theme.useToken();
   const navigate = useNavigate(); // Hook para navegación
 
   // Estado para guardar el nombre de usuario logueado
-  const [loggedInUsername, setLoggedInUsername] = useState<string | null>(null);
+  const [, setLoggedInUsername] = useState<string | null>(null);
 
   // useEffect para leer el nombre de usuario del storage al cargar el componente
   useEffect(() => {
@@ -160,20 +149,6 @@ const MainPage2: React.FC = () => {
     // El array vacío [] como segundo argumento asegura que esto se ejecute solo una vez al montar
   }, []);
 
-  // Función para manejar el logout
-  const handleLogout = () => {
-    // Limpia ambos storages por si acaso
-    localStorage.removeItem("isLoggedIn");
-    localStorage.removeItem("username");
-    sessionStorage.removeItem("isLoggedIn");
-    sessionStorage.removeItem("username");
-
-    // Limpia el estado local
-    setLoggedInUsername(null);
-
-    // Redirige a la página de login
-    navigate("/login"); // Asegúrate que tu ruta de login sea '/login'
-  };
 
   const handleCardClick = (recipeId: number) => {
     navigate(`/recipe/${recipeId}`);
@@ -181,103 +156,7 @@ const MainPage2: React.FC = () => {
 
   return (
     <Layout>
-      <Header
-        style={{
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "space-between",
-          position: "sticky", // Para que el header se quede fijo arriba
-          top: 0, // Para que el header se quede fijo arriba
-          zIndex: 1, // Para que el header se quede por encima del contenido
-          width: "100%", // Para que ocupe todo el ancho
-        }}
-      >
-        {/* Logo */}
-        <div className="logo" style={{ marginRight: "20px" }}>
-          <Title level={3} style={{ color: "white", margin: 0 }}>
-            Dominican Delights
-          </Title>
-        </div>
-
-        {/* Menú principal + Botones derecha */}
-        <div
-          style={{
-            display: "flex",
-            flexGrow: 1,
-            justifyContent: "space-between",
-            alignItems: "center",
-          }}
-        >
-          {/* Menú Navegación */}
-          <Menu
-            theme="dark"
-            mode="horizontal"
-            defaultSelectedKeys={["3"]} // O podrías basarlo en la ruta actual
-            style={{ flex: 1, borderBottom: "none" }}
-            items={[
-              // Forma alternativa y más moderna de definir items
-              { key: "1", label: <Link to="/">Inicio</Link> },
-              { key: "2", label: <Link to="/recetaslg">Recetas</Link> },
-              { key: "3", label: <Link to="/bloglg">Blog</Link> },
-              {
-                key: "4",
-                label: <Link to="/CreateRecipe">Crea tu receta</Link>,
-              },
-            ]}
-          />
-
-          {/* Iconos de Usuario / Configuración / Salir */}
-          <div style={{ display: "flex", alignItems: "center", gap: "15px" }}>
-            <Menu
-              theme="dark"
-              mode="horizontal"
-              selectable={false} // Para que no se quede marcado un ícono
-              style={{ borderBottom: "none" }}
-              // Los items ahora pueden mostrar el nombre de usuario o manejar el logout
-              items={[
-                // Muestra el nombre de usuario si está logueado
-                loggedInUsername
-                  ? {
-                      key: "user",
-                      icon: <UserOutlined />,
-                      label: (
-                        <Link
-                          to="/User"
-                          style={{ color: "rgba(255, 255, 255, 0.85)" }}
-                        >
-                          {""}
-                          {/* Enlace a perfil */}
-                          {loggedInUsername} {/* Muestra el nombre! */}
-                        </Link>
-                      ),
-                    }
-                  : {
-                      // Si no está logueado, podría mostrar un enlace a Login
-                      key: "login",
-                      icon: <UserOutlined />,
-                      label: <Link to="/login">Iniciar Sesión</Link>,
-                    },
-                // Mantenemos Configuración si es necesario
-                loggedInUsername
-                  ? {
-                      key: "settings",
-                      icon: <SettingOutlined />,
-                      label: <Link to="/configuracion">Configuración</Link>, // Cambia la ruta si es necesario
-                    }
-                  : null,
-                // Botón de Salir (solo si está logueado)
-                loggedInUsername
-                  ? {
-                      key: "logout",
-                      icon: <LogoutOutlined />,
-                      label: <span onClick={handleLogout}>Salir</span>, // Llama a la función de logout al hacer clic
-                    }
-                  : null,
-              ].filter((item) => item !== null)}
-            />
-          </div>
-        </div>
-      </Header>
+      <AppHeader />
 
       <Content style={{ padding: "0 50px" }}>
         <div
@@ -297,7 +176,6 @@ const MainPage2: React.FC = () => {
           {recipes.map((recipe) => (
             <Col xs={24} sm={12} md={8} lg={6} key={recipe.id}>
               <Card
-                hoverable
                 cover={
                   <Image
                     alt={recipe.title}
@@ -307,7 +185,6 @@ const MainPage2: React.FC = () => {
                     preview={false}
                   />
                 }
-                onClick={() => handleCardClick(recipe.id)}
                 style={{ cursor: "pointer" }}
               >
                 <Card.Meta
@@ -334,7 +211,7 @@ const MainPage2: React.FC = () => {
           {recipesPostre.map((recipesPostre) => (
             <Col xs={24} sm={12} md={8} lg={6} key={recipesPostre.id}>
               <Card
-                hoverable
+                hoverable={false} // Desactiva el efecto hover
                 cover={
                   <Image
                     alt={recipesPostre.title}
@@ -344,8 +221,7 @@ const MainPage2: React.FC = () => {
                     preview={false}
                   />
                 }
-                onClick={() => handleCardClick(recipesPostre.id)}
-                style={{ cursor: "pointer" }}
+                style={{ cursor: "default" }} // No muestra el cursor como puntero
               >
                 <Card.Meta
                   title={recipesPostre.title}
@@ -357,9 +233,7 @@ const MainPage2: React.FC = () => {
         </Row>
       </Content>
 
-      <Footer style={{ textAlign: "center" }}>
-        Dominican Delight © {new Date().getFullYear()}
-      </Footer>
+      <AppFooter />
     </Layout>
   );
 };

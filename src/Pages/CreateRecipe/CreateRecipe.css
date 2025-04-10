@@ -1,0 +1,89 @@
+:root {
+    --bg-main: #f5f7fa;
+    --primary: #4caf50;
+    --primary-dark: #388e3c;
+    --text-dark: #333;
+    --card-bg: rgba(255, 255, 255, 0.75);
+    --shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+    --border-radius: 16px;
+  }
+  
+  /* Estilo del fondo */
+  .ant-layout-content {
+    background-color: var(--bg-main) !important;
+    padding: 40px 20px;
+  }
+  
+  /* Contenedor del formulario */
+  .ant-card {
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    background-color: var(--card-bg) !important;
+    border-radius: var(--border-radius) !important;
+    box-shadow: var(--shadow) !important;
+    border: 1px solid rgba(255, 255, 255, 0.4);
+  }
+  
+  /* Título */
+  .ant-typography {
+    text-align: center;
+    color: var(--text-dark);
+    margin-bottom: 20px !important;
+  }
+  
+  /* Inputs */
+  .ant-form-item-label > label {
+    color: var(--text-dark) !important;
+    font-weight: 500;
+  }
+  
+  .ant-input,
+  .ant-input-number,
+  .ant-input-affix-wrapper {
+    border-radius: 12px !important;
+    padding: 10px 14px !important;
+    font-size: 15px;
+    transition: border-color 0.3s ease;
+  }
+  
+  .ant-input:focus,
+  .ant-input-number:focus-within,
+  .ant-input-affix-wrapper-focused {
+    border-color: var(--primary) !important;
+    box-shadow: 0 0 0 2px rgba(76, 175, 80, 0.2) !important;
+  }
+  
+  /* Botón */
+  .ant-btn-primary {
+    background-color: var(--primary) !important;
+    border: none !important;
+    font-weight: bold;
+    border-radius: 12px;
+    transition: background-color 0.3s ease;
+  }
+  
+  .ant-btn-primary:hover {
+    background-color: var(--primary-dark) !important;
+  }
+  
+  /* Etiquetas de ingredientes */
+  .ant-tag {
+    background-color: #e8f5e9 !important;
+    color: #2e7d32 !important;
+    font-weight: 500;
+    border-radius: 8px;
+    padding: 4px 10px;
+  }
+  
+  /* Responsive */
+  @media (max-width: 480px) {
+    .ant-card {
+      width: 100% !important;
+      padding: 16px !important;
+    }
+  
+    .ant-layout-content {
+      padding: 20px 10px !important;
+    }
+  }
+  

@@ -1,4 +1,9 @@
 {
+  "compilerOptions": {
+    "allowJs": true,
+    "jsx": "react-jsx",
+    "checkJs": false     // opcional: no revisar errores en .js/.jsx
+  },
   "files": [],
   "references": [
     { "path": "./tsconfig.app.json" },
